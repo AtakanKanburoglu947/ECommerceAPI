@@ -1,3 +1,4 @@
+using ECommerceCore.Exceptions;
 using ECommerceRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,7 +26,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.ConfigureBuildInExceptionHandler();
 app.UseAuthorization();
 
 app.MapControllers();
