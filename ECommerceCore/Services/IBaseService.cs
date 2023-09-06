@@ -12,6 +12,6 @@ namespace ECommerceCore.Services
         Task<T> GetById(int id);
         Task Add(T entity);
         Task Update(T entity);
-        Task DeleteById(int id);
+        Task DeleteById(T entity);
     }
 }
