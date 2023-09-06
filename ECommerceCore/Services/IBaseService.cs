@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ECommerceCore.Services
 {
-    public interface IBaseService<T> where T : class
+    public interface IBaseService<T,VM> where T : class where VM : class
     {
-        Task<IEnumerable<T>> GetAll();
-        Task<T> GetById(int id);
-        Task Add(T entity);
-        Task Update(T entity);
-        Task DeleteById(T entity);
+        Task<IEnumerable<VM>> GetAll();
+        Task<VM> GetById(int id);
+        Task<VM> Add(VM entity);
+        Task<VM> Update(VM entity);
+        Task Delete(VM entity);
     }
 }
