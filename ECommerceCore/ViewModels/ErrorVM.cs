@@ -10,7 +10,7 @@ namespace ECommerceCore.ViewModels
 {
     public class ErrorVM
     {
-        public HttpStatusCode StatusCode { get; set; }
+        public int StatusCode { get; set; }
         public string? ErrorMessage { get; set; }
         public override string ToString()
         {

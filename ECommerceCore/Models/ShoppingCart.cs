@@ -9,6 +9,6 @@ namespace ECommerceCore.Models
     public class ShoppingCart
     {
         public int Id { get; set; }
-        public IEnumerable<Product> Products { get; set; } 
+        public IEnumerable<Product>? Products { get; set; } 
     }
 }

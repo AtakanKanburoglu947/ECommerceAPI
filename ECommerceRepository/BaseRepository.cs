@@ -27,13 +27,14 @@ namespace ECommerceRepository
         public async Task<T> GetById(int id)
         {
             T? entity = await _dbSet.FindAsync(id);
+
             return entity;
         }
 
         public async Task Add(T entity)
         {
             await _dbSet.AddAsync(entity);
-
+            await _context.SaveChangesAsync();
         }
 
         public T Update(T entity)

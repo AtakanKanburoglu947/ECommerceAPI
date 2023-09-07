@@ -1,8 +1,13 @@
 using ECommerceCore.Exceptions;
+using ECommerceCore.Repositories;
+using ECommerceCore.Services;
 using ECommerceRepository;
 using ECommerceService;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using ECommerceService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +21,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
 builder.Services.AddAutoMapper(typeof(VMMapper).Assembly);
+builder.Services.AddApiVersioning(config =>
+{
+    config.DefaultApiVersion = new ApiVersion(1, 0);
+    config.ReportApiVersions = true;
+    config.AssumeDefaultVersionWhenUnspecified = true;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

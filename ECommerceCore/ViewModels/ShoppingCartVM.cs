@@ -9,6 +9,6 @@ namespace ECommerceCore.ViewModels
 {
     public class ShoppingCartVM
     {
-        public IEnumerable<Product> Products { get; set; }
+        public IEnumerable<Product>? Products { get; set; }
     }
 }
