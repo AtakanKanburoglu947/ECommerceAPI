@@ -1,4 +1,5 @@
-﻿using ECommerceCore.Repositories;
+﻿using AutoMapper;
+using ECommerceCore.Repositories;
 using ECommerceCore.Services;
 using System;
 using System.Collections.Generic;
@@ -11,34 +12,40 @@ namespace ECommerceService
     public class BaseService<T,VM> : IBaseService<T,VM> where T : class where VM : class 
     {
         private readonly IBaseRepository<T> _repository;
-        public BaseService(IBaseRepository<T> repository)
+        private readonly IMapper _mapper;
+        public BaseService(IBaseRepository<T> repository,IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public Task<VM> Add(VM entity)
+        public async Task<VM> Add(VM entity)
         {
-            throw new NotImplementedException();
+            await _repository.Add(_mapper.Map<T>(entity));
+            return entity;
         }
 
         public Task Delete(VM entity)
         {
-            throw new NotImplementedException();
+             _repository.Delete(_mapper.Map<T>(entity));
+             return Task.CompletedTask;
         }
 
-        public Task<IEnumerable<VM>> GetAll()
+        public async Task<IEnumerable<VM>> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<VM>>(await _repository.GetAll());
         }
 
-        public Task<VM> GetById(int id)
+        public async Task<VM> GetById(int id)
         {
-            throw new NotImplementedException();
+           return _mapper.Map<VM>(await _repository.GetById(id));
         }
 
         public Task<VM> Update(VM entity)
         {
-            throw new NotImplementedException();
+            T updatedEntity = _mapper.Map<T>(entity);
+            _repository.Update(updatedEntity);
+            return Task.FromResult(entity);
         }
     }
 }
