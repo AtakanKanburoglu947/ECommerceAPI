@@ -1,6 +1,7 @@
 ﻿using ECommerceCore.Models;
 using ECommerceCore.Services;
 using ECommerceCore.ViewModels;
+using ECommerceService.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,16 +10,15 @@ namespace ECommerceAPI.Controllers.V1
     [ApiVersion("1.0")]
 
     [Route("api/v{version:apiVersion}/[controller]")]
-
     [ApiController]
     public class ProductController : ControllerBase
     {
         private readonly IBaseService<Product, ProductVM> _productService;
-
-        public ProductController(IBaseService<Product, ProductVM> productService)
+        private readonly IProductSortingService _productSortingService;
+        public ProductController(IBaseService<Product, ProductVM> productService, IProductSortingService productSortingService)
         {
             _productService = productService;
-
+            _productSortingService = productSortingService;
         }
         [HttpPost("Add-Product")]
         public async Task<IActionResult> Add([FromBody] ProductVM productVM)
@@ -100,6 +100,19 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
 
+        }
+        
+        [HttpGet("Sort-Product-By-Price")]
+        public IActionResult SortProductByPrice(string query)
+        {
+            try
+            {
+                return Ok(_productSortingService.SortByPrice(query));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            } 
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ECommerceCore.Models;
+using ECommerceCore.Services;
 using ECommerceRepository;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace ECommerceService.Services
 {
-    public class ProductSortingService
+    public class ProductSortingService : IProductSortingService
     {
         private readonly AppDbContext _context;
         public ProductSortingService(AppDbContext context)
         {
             _context = context;
         }
-        public  IEnumerable<Product> SortByPrice(string? sortBy){
+        public IEnumerable<Product> SortByPrice(string? sortBy){
             IEnumerable<Product> allProducts = _context.Products.OrderBy(x=> x.Price);
             if (!string.IsNullOrEmpty(sortBy))
             {

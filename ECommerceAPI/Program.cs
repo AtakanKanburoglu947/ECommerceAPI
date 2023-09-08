@@ -27,6 +27,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
+builder.Services.AddTransient<IProductSortingService,ProductSortingService>();
 builder.Services.AddAutoMapper(typeof(VMMapper).Assembly);
 builder.Services.AddApiVersioning(config =>
 {

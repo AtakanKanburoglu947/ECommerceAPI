@@ -53,7 +53,7 @@ namespace ECommerceRepository
             T? entity = await _dbSet.FindAsync(id);
             if (entity == null)
             {
-                throw new Exception("Could not find the entity");
+                throw new Exception("Could not find the id");
             }
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();

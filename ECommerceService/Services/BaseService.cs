@@ -15,13 +15,11 @@ namespace ECommerceService.Services
     {
         private readonly IBaseRepository<T> _repository;
         private readonly IMapper _mapper;
-        private readonly AppDbContext _appDbContext;
 
-        public BaseService(IBaseRepository<T> repository, IMapper mapper, AppDbContext appDbContext)
+        public BaseService(IBaseRepository<T> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
-            _appDbContext = appDbContext;
         }
 
         public async Task<T> Add(VM entity)
