@@ -17,7 +17,7 @@ namespace ECommerceService.Services
         }
         public  IEnumerable<Product> SortByPrice(string? sortBy){
             IEnumerable<Product> allProducts = _context.Products.OrderBy(x=> x.Price);
-            if (string.IsNullOrEmpty(sortBy))
+            if (!string.IsNullOrEmpty(sortBy))
             {
                 if (sortBy == "price_desc")
                 {

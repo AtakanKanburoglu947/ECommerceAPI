@@ -8,11 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using ECommerceService.Services;
+using Serilog;
+using Serilog.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+Logger logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -40,7 +44,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.ConfigureBuildInExceptionHandler();
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    ILoggerFactory loggerFactory = (ILoggerFactory)scope.ServiceProvider.GetRequiredService(typeof(ILoggerFactory));
+    app.ConfigureExceptionHandler(loggerFactory);
+}
 app.UseAuthorization();
 
 app.MapControllers();

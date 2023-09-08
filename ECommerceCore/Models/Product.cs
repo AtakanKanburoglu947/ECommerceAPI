@@ -12,5 +12,9 @@ namespace ECommerceCore.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public float Price { get; set; }
+        public int SellerId { get; set; }
+        public Seller Seller { get; set; }
+        public int CatalogId { get; set; }
+        public Catalog Catalog { get; set; }
     }
 }
