@@ -1,5 +1,7 @@
 ﻿using ECommerceCore.Models;
 using ECommerceCore.Services;
+using ECommerceRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +12,56 @@ namespace ECommerceService.Services
 {
     public class ShoppingCartService : IShoppingCartService
     {
-        public Task Add(Product product)
+        private readonly AppDbContext _context;
+
+        public ShoppingCartService(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task Buy(Product product, User user)
+        public async Task Add(int id)
         {
-            throw new NotImplementedException();
+            Product? product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                throw new Exception("Could not find the id");
+            }
+            await _context.AddAsync(product);
+            await _context.SaveChangesAsync();
         }
 
-        public Task Delete(int id)
+        public async Task Buy(int id, User user)
         {
-            throw new NotImplementedException();
+            Product? product = await _context.Products.FindAsync(id);
+            // TODO: Will implement this function
         }
 
-        public Task<IEnumerable<Product>> GetAllProductsInAShoppingCart()
+        public async Task Delete(int shoppingCartId,int productId)
         {
-            throw new NotImplementedException();
+            ShoppingCart? shoppingCart = await _context.ShoppingCarts.FindAsync(shoppingCartId);
+            if (shoppingCart == null)
+            {
+                throw new Exception("Could not find the id");
+            }
+            _context.Remove(shoppingCart.Products.Where(x=>x.Id == productId));
+            await _context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<ShoppingCart>> GetAllShoppingCarts()
+        public async Task<IEnumerable<Product>> GetAllProductsInAShoppingCart(int id)
         {
-            throw new NotImplementedException();
+
+            ShoppingCart? shoppingCart = await _context.ShoppingCarts.FindAsync(id);
+            if(shoppingCart == null)
+            {
+                throw new Exception("Could not find the id");                
+            }
+            return shoppingCart.Products;
+
+        }
+
+        public async Task<IEnumerable<ShoppingCart>> GetAllShoppingCarts()
+        {
+            return await _context.ShoppingCarts.ToListAsync();
         }
     }
 }

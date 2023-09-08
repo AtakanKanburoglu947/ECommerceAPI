@@ -9,10 +9,10 @@ namespace ECommerceCore.Services
 {
     public interface IShoppingCartService
     {
-        Task Add(Product product);
-        Task Delete(int id);
-        Task<IEnumerable<Product>> GetAllProductsInAShoppingCart();
+        Task Add(int id);
+        Task Delete(int shoppingCartId, int productId);
+        Task<IEnumerable<Product>> GetAllProductsInAShoppingCart(int id);
         Task<IEnumerable<ShoppingCart>> GetAllShoppingCarts();
-        Task Buy(Product product, User user);
+        Task Buy(int id, User user);
     }
 }
