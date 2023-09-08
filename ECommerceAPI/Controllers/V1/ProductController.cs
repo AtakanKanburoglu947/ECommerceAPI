@@ -13,15 +13,93 @@ namespace ECommerceAPI.Controllers.V1
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private IBaseService<Product,ProductVM> _productService;
-        public ProductController(IBaseService<Product,ProductVM> productService)
+        private readonly IBaseService<Product, ProductVM> _productService;
+
+        public ProductController(IBaseService<Product, ProductVM> productService)
         {
-            _productService = productService;            
+            _productService = productService;
+
         }
-        [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        [HttpPost("Add-Product")]
+        public async Task<IActionResult> Add([FromBody] ProductVM productVM)
         {
-            return Ok(await _productService.GetAll());
+
+            try
+            {
+                Task<Product> newProduct = _productService.Add(productVM);
+
+                return Ok(await newProduct);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+
+        }
+        [HttpGet("Get-All-Products")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                return Ok(await _productService.GetAll());
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+        [HttpGet("Get-By-Id")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                return Ok(await _productService.GetById(id));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+        [HttpGet("Get-By-Name")]
+        public async Task<IActionResult> GetProductsByName(string name)
+        {
+            try
+            {
+                return Ok(await _productService.Filter(x => x.Name == name));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+        [HttpPut("Update-Product")]
+        public async Task<IActionResult> UpdateProduct(Product product)
+        {
+
+            try
+            {
+                await _productService.Update(product);
+                return Ok(product);
+            }
+            catch (Exception exception)
+            {
+
+                return BadRequest(exception.Message);
+            }
+        }
+        [HttpDelete("Delete-Product")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            try
+            {
+                await _productService.Delete(id);
+                return Ok($"Deleted the product with id: {id}");
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,20 +36,29 @@ namespace ECommerceRepository
         {
             await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
+
         }
 
-        public T Update(T entity)
+        public async Task Update(T entity)
         {
             _dbSet.Update(entity);
-            return entity;
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(T entity)
+        public async Task Delete(int id)
         {
+            T? entity = await _dbSet.FindAsync(id);
+            if (entity == null)
+            {
+                throw new Exception("Could not find the entity");
+            }
             _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-
-
+        public async Task<IEnumerable<T>> Filter(Expression<Func<T, bool>> expression)
+        {
+          return await _dbSet.Where(expression).ToListAsync();
+        }
     }
 }
