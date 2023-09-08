@@ -14,7 +14,9 @@ namespace ECommerceService
         public VMMapper() { 
             CreateMap<UserVM,User>().ReverseMap();
             CreateMap<ProductVM,Product>().ReverseMap();
-            CreateMap<ShoppingCart,ShoppingCartVM>().ReverseMap();
+            CreateMap<ShoppingCartVM,ShoppingCart>().ReverseMap();
+            CreateMap<SellerVM,Seller>().ReverseMap();
+            CreateMap<CatalogVM,Catalog>().ReverseMap();
         }
 
     }

@@ -28,7 +28,10 @@ namespace ECommerceRepository
         public async Task<T> GetById(int id)
         {
             T? entity = await _dbSet.FindAsync(id);
-
+            if (entity == null)
+            {
+                throw new Exception("Could not find the id");
+            }
             return entity;
         }
 
