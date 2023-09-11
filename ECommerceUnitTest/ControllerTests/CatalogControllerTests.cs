@@ -28,12 +28,39 @@ namespace ECommerceUnitTest.ControllerTests
         {
             _context = new AppDbContext(options);
             _context.Database.EnsureCreated();
-            VMMapper myProfile = new VMMapper();
-            MapperConfiguration configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            SeedDatabase();
+            
+            VMMapper vMMapper = new VMMapper();
+            MapperConfiguration configuration = new MapperConfiguration(cfg => cfg.AddProfile(vMMapper));
             _mapper =  new Mapper(configuration);
             _catalogRepository = new BaseRepository<Catalog>(_context);
             _catalogService = new BaseService<Catalog,CatalogVM>(_catalogRepository,_mapper);
         }
+        private void SeedDatabase()
+        {
+            var catalogs = new List<Catalog>() { 
+                new Catalog()
+                {
+                    Id = 1,
+                    Name = "string"
+                }
+            };
+            _context.Catalogs.AddRange(catalogs);
+            _context.SaveChanges();
+        }
+        [OneTimeTearDown]
+        public void CleanUp()
+        {
+            _context.Database.EnsureDeleted();
+        }
+        [Test]
+        public void GetAllCatalogs_Test()
+        {
+            List<Catalog> result = _catalogService.GetAll().Result.ToList();
+            Assert.That(result.Count, Is.GreaterThan(0));
+
+        }
+
 
     }
 }
