@@ -20,8 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ECommerceAPI\ECommerceAPI.csproj" />
-    <ProjectReference Include="..\ECommerceCore\ECommerceCore.csproj" />
-    <ProjectReference Include="..\ECommerceRepository\ECommerceRepository.csproj" />
   </ItemGroup>
 
 </Project>

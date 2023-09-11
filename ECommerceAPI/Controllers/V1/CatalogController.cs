@@ -69,7 +69,7 @@ namespace ECommerceAPI.Controllers.V1
             }
         }
         [HttpPut("Update-Catalog")]
-        public async Task<IActionResult> UpdateCatalog(Catalog Catalog)
+        public async Task<IActionResult> UpdateCatalog([FromBody] Catalog Catalog)
         {
 
             try

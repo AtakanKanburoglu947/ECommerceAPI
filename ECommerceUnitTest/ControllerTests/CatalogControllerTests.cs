@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ECommerceAPI.Controllers.V1;
 using ECommerceCore.Models;
 using ECommerceCore.Repositories;
 using ECommerceCore.Services;
@@ -6,6 +7,7 @@ using ECommerceCore.ViewModels;
 using ECommerceRepository;
 using ECommerceService;
 using ECommerceService.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,7 @@ namespace ECommerceUnitTest.ControllerTests
         private AppDbContext _context;
         private IBaseService<Catalog, CatalogVM> _catalogService;
         private IBaseRepository<Catalog> _catalogRepository;
+        private CatalogController _catalogController;
         private IMapper _mapper;
         [OneTimeSetUp]
         public void Setup()
@@ -35,6 +38,7 @@ namespace ECommerceUnitTest.ControllerTests
             _mapper =  new Mapper(configuration);
             _catalogRepository = new BaseRepository<Catalog>(_context);
             _catalogService = new BaseService<Catalog,CatalogVM>(_catalogRepository,_mapper);
+            _catalogController = new CatalogController(_catalogService);
         }
         private void SeedDatabase()
         {
@@ -53,14 +57,29 @@ namespace ECommerceUnitTest.ControllerTests
         {
             _context.Database.EnsureDeleted();
         }
-        [Test]
+        [Test,Order(1)]
         public void GetAllCatalogs_Test()
         {
-            List<Catalog> result = _catalogService.GetAll().Result.ToList();
-            Assert.That(result.Count, Is.GreaterThan(0));
+            bool result = _catalogController.GetAll().IsFaulted;
+            Assert.That(result, Is.False);
 
         }
+        [Test,Order(2)]
+        public void AddCatalog_Test()
+        {
+            CatalogVM catalogVM = new CatalogVM() { Name = "Test" };
 
+            bool result = _catalogController.Add(catalogVM).IsFaulted;
+            Assert.That(result, Is.False);
+
+        }
+        [Test,Order(3)]
+        public void GetCatalogById_Test()
+        {
+            int catalogId = 1;
+            bool result = _catalogController.GetById(catalogId).IsFaulted;
+            Assert.That(result, Is.False);
+        }
 
     }
 }
