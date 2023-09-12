@@ -10,7 +10,8 @@ namespace ECommerceCore.Models
     public class ShoppingCartItem
     {
         public int Id { get; set; }
-        public int TotalPrice { get; set; }
+        public float TotalPrice { get; set; }
+        public int Amount { get; set; }
         public int UserId { get; set; }
         [ForeignKey("UserId")]
         public User? User { get; set; }

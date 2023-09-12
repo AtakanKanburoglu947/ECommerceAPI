@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerceRepository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230911112014_added-shopping-cart-items")]
-    partial class addedshoppingcartitems
+    [Migration("20230912093058_updated-shopping-cart-item")]
+    partial class updatedshoppingcartitem
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,8 +68,6 @@ namespace ECommerceRepository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SellerId");
-
                     b.ToTable("Products");
                 });
 
@@ -98,11 +96,14 @@ namespace ECommerceRepository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalPrice")
-                        .HasColumnType("int");
+                    b.Property<float>("TotalPrice")
+                        .HasColumnType("real");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -143,17 +144,6 @@ namespace ECommerceRepository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("ECommerceCore.Models.Product", b =>
-                {
-                    b.HasOne("ECommerceCore.Models.Seller", "Seller")
-                        .WithMany()
-                        .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("ECommerceCore.Models.ShoppingCartItem", b =>
