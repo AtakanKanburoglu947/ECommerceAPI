@@ -68,11 +68,11 @@ namespace ECommerceAPI.Controllers.V1
             }
         }
         [HttpPost("Buy-Shopping-Cart-Item")]
-        public async Task BuyShoppingCartItem(int userId, int shoppingCartId)
+        public async Task<IActionResult> BuyShoppingCartItem(int userId, int shoppingCartId)
         {
             try
             {
-                await _shoppingCartItemService.BuyShoppingCartItem(userId, shoppingCartId);
+                return Ok( await _shoppingCartItemService.BuyShoppingCartItem(userId, shoppingCartId));
             }
             catch (Exception exception)
             {

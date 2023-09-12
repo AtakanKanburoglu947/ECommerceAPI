@@ -15,6 +15,6 @@ namespace ECommerceCore.Services
         public Task<ShoppingCartItemVM> AddShoppingCartItem(ShoppingCartItemVM shoppingCartItemVM);
         public List<ShoppingCartItem> GetShoppingCartItemsOfAnUser(int userId);
         public Task RemoveShoppingCartItem(int shoppingCartItemId);
-        public Task BuyShoppingCartItem(int userId, int shoppingCartId);
+        public Task<ShoppingCartItem> BuyShoppingCartItem(int userId, int shoppingCartId);
     }
 }
