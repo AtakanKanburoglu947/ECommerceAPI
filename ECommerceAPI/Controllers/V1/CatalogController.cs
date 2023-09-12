@@ -57,7 +57,7 @@ namespace ECommerceAPI.Controllers.V1
             }
         }
         [HttpGet("Get-By-Name")]
-        public async Task<IActionResult> GetCatalogsByName(string name)
+        public async Task<IActionResult> GetCatalogByName(string name)
         {
             try
             {
