@@ -61,11 +61,14 @@ namespace ECommerceUnitTest.ServiceTests
             List<User> users = new List<User>()
             {
                 new User()
-                {
+                { 
+                    Id = "2",
                     Balance = 100,
                 },
                 new User()
                 {
+
+                    Id ="2",
                     Balance = 200,
                 }
             };

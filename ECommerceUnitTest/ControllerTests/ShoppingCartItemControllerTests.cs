@@ -64,9 +64,9 @@ namespace ECommerceUnitTest.ControllerTests
             List<User> users = new List<User>()
             {
                 new User()
-                {Balance = 100},
+                {Id = "2",Balance = 100},
                 new User()
-                {Balance = 200}
+                {Id = "2",Balance = 200}
             };
             List<Product> products = new List<Product>()
             {
