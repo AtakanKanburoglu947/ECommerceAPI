@@ -10,6 +10,8 @@ using System;
 using ECommerceService.Services;
 using Serilog;
 using Serilog.Core;
+using Microsoft.AspNetCore.Identity;
+using ECommerceCore.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,8 @@ builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
 builder.Services.AddTransient<IProductSortingService,ProductSortingService>();
 builder.Services.AddScoped<IShoppingCartItemService,ShoppingCartItemService>();
 builder.Services.AddAutoMapper(typeof(VMMapper).Assembly);
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 builder.Services.AddApiVersioning(config =>
 {
     config.DefaultApiVersion = new ApiVersion(1, 0);
@@ -52,7 +56,7 @@ using (IServiceScope scope = app.Services.CreateScope())
     app.ConfigureExceptionHandler(loggerFactory);
 }
 app.UseAuthorization();
-
+await RoleInitializer.SeedRoles(app);
 app.MapControllers();
 
 app.Run();

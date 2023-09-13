@@ -65,7 +65,7 @@ namespace ECommerceAPI.Controllers.V1
         {
             try
             {
-                return Ok(await _userService.Filter(x => x.FirstName == name));
+                return Ok(await _userService.Filter(x => x.UserName == name));
             }
             catch (Exception exception)
             {

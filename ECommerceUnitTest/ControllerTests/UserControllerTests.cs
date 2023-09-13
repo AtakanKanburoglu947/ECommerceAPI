@@ -49,19 +49,11 @@ namespace ECommerceUnitTest.ControllerTests
             List<User> users = new List<User>() { 
                 new User()
                 {
-                    Id = 1,
-                    FirstName = "Test",
-                    LastName = "Test",
-                    Email = "Test email",
-                    Password = "Password"
+                    Balance = 0
                 },
                 new User()
                 {
-                    Id = 2,
-                    FirstName = "test",
-                    LastName = "test",
-                    Email = "test email",
-                    Password = "password"
+                    Balance = 0
                 }
             };
             _context.AddRange(users);

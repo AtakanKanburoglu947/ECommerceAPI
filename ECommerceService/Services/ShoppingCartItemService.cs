@@ -30,7 +30,7 @@ namespace ECommerceService.Services
             
         }
 
-        public async Task<ShoppingCartItem> BuyShoppingCartItem(int userId,int shoppingCartId)
+        public async Task<ShoppingCartItem> BuyShoppingCartItem(string userId,int shoppingCartId)
         {
          ShoppingCartItem? shoppingCartItem = await _context.ShoppingCartItems.FindAsync(shoppingCartId);
          User? user = await _context.Users.FindAsync(userId);
@@ -60,7 +60,7 @@ namespace ECommerceService.Services
           return shoppingCartItem.TotalPrice;
             
         }
-        public List<ShoppingCartItem> GetShoppingCartItemsOfAnUser(int userId)
+        public List<ShoppingCartItem> GetShoppingCartItemsOfAnUser(string userId)
         {
             List<ShoppingCartItem> shoppingCartItems = _context.ShoppingCartItems.Where(x => x.UserId == userId).ToList();
              return shoppingCartItems;  

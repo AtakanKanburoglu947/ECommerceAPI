@@ -12,8 +12,8 @@ namespace ECommerceCore.Services
     {
         public float CalculateTotalPrice(int shoppingCartId);
         public Task<ShoppingCartItemVM> AddShoppingCartItem(ShoppingCartItemVM shoppingCartItemVM);
-        public List<ShoppingCartItem> GetShoppingCartItemsOfAnUser(int userId);
+        public List<ShoppingCartItem> GetShoppingCartItemsOfAnUser(string userId);
         public Task RemoveShoppingCartItem(int shoppingCartItemId);
-        public Task<ShoppingCartItem> BuyShoppingCartItem(int userId, int shoppingCartId);
+        public Task<ShoppingCartItem> BuyShoppingCartItem(string userId, int shoppingCartId);
     }
 }

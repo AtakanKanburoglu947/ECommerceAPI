@@ -45,7 +45,7 @@ namespace ECommerceUnitTest.ServiceTests
                 {
                     Id = 1,
                     ProductId = 1,
-                    UserId = 1,
+                    UserId = "1",
                     Amount = 3,
                     TotalPrice = 1
                 },
@@ -53,7 +53,7 @@ namespace ECommerceUnitTest.ServiceTests
                 {
                     Id = 2,
                     ProductId = 2,
-                    UserId = 2,
+                    UserId = "2",
                     Amount = 2,
                     TotalPrice = 10
                 }
@@ -62,21 +62,11 @@ namespace ECommerceUnitTest.ServiceTests
             {
                 new User()
                 {
-                    Id = 1,
                     Balance = 100,
-                    Email = "test",
-                    FirstName = "test",
-                    LastName = "test",
-                    Password = "test",
                 },
                 new User()
                 {
-                    Id = 2,
                     Balance = 200,
-                    Email = "Test",
-                    FirstName = "Test",
-                    LastName = "Test",
-                    Password = "Test",
                 }
             };
             List<Product> products = new List<Product>()
@@ -108,7 +98,7 @@ namespace ECommerceUnitTest.ServiceTests
         [Test,Order(1)]
         public void GetShoppingCartItemsOfAnUser_Test()
         {
-            const int userId = 1;
+            const string userId = "2";
             List<ShoppingCartItem> userItems = _shoppingCartItemService.GetShoppingCartItemsOfAnUser(userId);
             Assert.That(userItems.Count, Is.EqualTo(1));
         }
@@ -123,7 +113,7 @@ namespace ECommerceUnitTest.ServiceTests
                 TotalPrice = 50
             };
             await _shoppingCartItemService.AddShoppingCartItem(shoppingCartItemVM);
-            const int userId = 1;
+            const string userId = "2";
             int userItemsCount = _shoppingCartItemService.GetShoppingCartItemsOfAnUser(userId).Count;
             Assert.That(userItemsCount,Is.EqualTo(2));
         }
@@ -131,18 +121,18 @@ namespace ECommerceUnitTest.ServiceTests
         public async Task BuyShoppingCartItem_Test()
         {
             const int shoppingCartId = 2;
-            const int userId = 2;
-            await _shoppingCartItemService.BuyShoppingCartItem(shoppingCartId, userId);
+            const string userId = "2";
+            await _shoppingCartItemService.BuyShoppingCartItem(userId,shoppingCartId);
             int userItemsCount = _shoppingCartItemService.GetShoppingCartItemsOfAnUser(userId).Count;
             Assert.That(userItemsCount, Is.EqualTo(0));
-            float userBalance = _context.Users.Find(userId).Balance;
+            float? userBalance = _context.Users.Find(userId).Balance;
             Assert.That(userBalance,Is.EqualTo(190));
         }
         [Test,Order(4)]
         public async Task RemoveShoppingCartItem_Test()
         {
             const int shoppingCartItemId = 1;
-            const int userId = 1;
+            const string userId = "2";
             await _shoppingCartItemService.RemoveShoppingCartItem(shoppingCartItemId);
             int userItemsCount = _shoppingCartItemService.GetShoppingCartItemsOfAnUser(userId).Count;
             Assert.That(userItemsCount, Is.EqualTo(0));

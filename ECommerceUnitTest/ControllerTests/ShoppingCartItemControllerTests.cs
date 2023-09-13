@@ -48,7 +48,7 @@ namespace ECommerceUnitTest.ControllerTests
                 {
                     Id = 1,
                     ProductId = 1,
-                    UserId = 1,
+                    UserId = "1",
                     Amount = 3,
                     TotalPrice = 50
                 },
@@ -56,7 +56,7 @@ namespace ECommerceUnitTest.ControllerTests
                 {
                     Id = 2,
                     ProductId = 2,
-                    UserId = 2,
+                    UserId = "2",
                     Amount = 2,
                     TotalPrice = 0
                 }
@@ -64,23 +64,9 @@ namespace ECommerceUnitTest.ControllerTests
             List<User> users = new List<User>()
             {
                 new User()
-                {
-                    Id = 1,
-                    Balance = 100,
-                    Email = "test",
-                    FirstName = "test",
-                    LastName = "test",
-                    Password = "test",
-                },
+                {Balance = 100},
                 new User()
-                {
-                    Id = 2,
-                    Balance = 200,
-                    Email = "Test",
-                    FirstName = "Test",
-                    LastName = "Test",
-                    Password = "Test",
-                }
+                {Balance = 200}
             };
             List<Product> products = new List<Product>()
             {
@@ -111,7 +97,7 @@ namespace ECommerceUnitTest.ControllerTests
         [Test,Order(1)]
         public void GetShoppingCartItemsOfAnUser_Test()
         {
-            const int userId = 1;
+            const string userId = "2";
             ResultValidator.ValidateResult(_shoppingCartItemController.GetShoppingCartItemsOfAnUser(userId));
         }
         [Test,Order(2)]
@@ -129,7 +115,7 @@ namespace ECommerceUnitTest.ControllerTests
         [Test,Order(3)]
         public async Task BuyShoppingCartItem_Test()
         {
-            const int userId = 1;
+            const string userId = "2";
             const int shoppingCartId = 1;
             ResultValidator.ValidateResult(await _shoppingCartItemController.BuyShoppingCartItem(userId, shoppingCartId));
         }
