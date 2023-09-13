@@ -60,13 +60,6 @@ namespace ECommerceService.Services
           return shoppingCartItem.TotalPrice;
             
         }
-
-        public int GetShoppingCartItemCount(int userId)
-        {
-           List<ShoppingCartItem> userShoppingCartItems = _context.ShoppingCartItems.Where(x => x.UserId == userId).ToList();
-           return userShoppingCartItems.Count;
-        }
-
         public List<ShoppingCartItem> GetShoppingCartItemsOfAnUser(int userId)
         {
             List<ShoppingCartItem> shoppingCartItems = _context.ShoppingCartItems.Where(x => x.UserId == userId).ToList();

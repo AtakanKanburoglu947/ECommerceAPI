@@ -41,19 +41,6 @@ namespace ECommerceAPI.Controllers.V1
                 throw new Exception(exception.Message);
             }
         }
-        [HttpGet("Get-Shopping-Cart-Items-Count")]
-        public IActionResult GetShoppingCartItemCount(int userId) {
-            try
-            {
-                return Ok(_shoppingCartItemService.GetShoppingCartItemCount(userId));
-
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
-
-        }
         [HttpDelete]
         public async Task<IActionResult> RemoveShoppingCartItem(int shoppingCartItemId) {
             try
