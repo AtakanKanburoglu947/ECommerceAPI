@@ -1,12 +1,15 @@
 ﻿using ECommerceCore.Models;
+using ECommerceCore.Models.AuthenticationModels;
 using ECommerceCore.Services;
 using ECommerceCore.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace ECommerceAPI.Controllers.V1
 {
+    [Authorize(Roles = UserRoles.User + "," + UserRoles.Admin)]
     [Route("api/[controller]")]
     [ApiController]
     public class ShoppingCartItemController : ControllerBase

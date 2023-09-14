@@ -1,11 +1,14 @@
 ﻿using ECommerceCore.Models;
+using ECommerceCore.Models.AuthenticationModels;
 using ECommerceCore.Services;
 using ECommerceCore.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerceAPI.Controllers.V1
 {
+    [Authorize(Roles = UserRoles.Admin)]
     [ApiVersion("1.0")]
     [Route("api/[controller]")]
     [ApiController]
