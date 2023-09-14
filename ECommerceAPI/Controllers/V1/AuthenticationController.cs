@@ -33,12 +33,12 @@ namespace ECommerceAPI.Controllers.V1
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Please provide all required fields");
+                return BadRequest("Please provide all the required fields");
             }
             try
             {
                 await _authenticationService.Register(register);
-                return Created(nameof(Register), $"Created user {register.UserName}");
+                return Created(nameof(Register), $"Created User: {register.UserName} E-mail: {register.Email}");
             }
             catch (Exception exception)
             {
@@ -51,7 +51,7 @@ namespace ECommerceAPI.Controllers.V1
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Please, provide all required fields");
+                return BadRequest("Please provide all the required fields");
             }
             try
             {
