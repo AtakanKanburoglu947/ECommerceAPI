@@ -10,32 +10,17 @@ using System;
 
 namespace ECommerceAPI.Controllers.V1
 {
-    [Authorize(Roles = UserRoles.Admin)]
-    [ApiVersion("1.0")]
+    //[Authorize(Roles = UserRoles.Admin)]
+    //[ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IBaseService<User, UserVM> _userService;
+        private readonly IUserService _userService;
 
-        public UserController(IBaseService<User, UserVM> userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-
-        }
-        [HttpPost("Add-User")]
-        public async Task<IActionResult> Add([FromBody] UserVM userVM) {
-
-            try
-            {
-                Task<User> newUser = _userService.Add(userVM);
-
-                return Ok(await newUser);
-            }
-            catch (Exception exception)
-            {
-                return BadRequest(exception.Message);
-            }
 
         }
         [HttpGet("Get-All-Users")]
@@ -43,7 +28,7 @@ namespace ECommerceAPI.Controllers.V1
         {
             try
             {
-                return Ok(await _userService.GetAll());
+                return Ok(await _userService.GetAllUsers());
             }
             catch (Exception exception)
             {
@@ -51,11 +36,23 @@ namespace ECommerceAPI.Controllers.V1
             }
         }
         [HttpGet("Get-By-Id")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(string id)
         {
             try
             {
-                return Ok(await _userService.GetById(id));
+                return Ok(await _userService.GetUserById(id));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+        [HttpGet("Get-By-Email")]
+        public async Task<IActionResult> GetByEmail(string email)
+        {
+            try
+            {
+                return Ok(await _userService.GetUserByEmail(email));
             }
             catch (Exception exception)
             {
@@ -63,11 +60,11 @@ namespace ECommerceAPI.Controllers.V1
             }
         }
         [HttpGet("Get-By-Name")]
-        public async Task<IActionResult> GetUsersByName(string name)
+        public async Task<IActionResult> GetUserByUsername(string name)
         {
             try
             {
-                return Ok(await _userService.Filter(x => x.UserName == name));
+                return Ok(await _userService.GetUserByUsername(name));
             }
             catch (Exception exception)
             {
@@ -80,7 +77,7 @@ namespace ECommerceAPI.Controllers.V1
            
             try
             {
-                await _userService.Update(user);
+                await _userService.UpdateUser(user);
                  return Ok(user);
             }
             catch (Exception exception)
@@ -90,11 +87,11 @@ namespace ECommerceAPI.Controllers.V1
             }
         }
         [HttpDelete("Delete-User")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             try
             {
-                 await _userService.Delete(id);
+                 await _userService.DeleteUser(id);
                  return Ok($"Deleted the user with id: {id}");
             }
             catch (Exception exception)
