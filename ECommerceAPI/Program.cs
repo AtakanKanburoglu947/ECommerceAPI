@@ -41,11 +41,12 @@ TokenValidationParameters tokenValidationParameters = new TokenValidationParamet
     ValidateLifetime = true,
     ClockSkew = TimeSpan.Zero
 };
+builder.Services.AddSingleton(tokenValidationParameters);
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
 builder.Services.AddTransient<IProductSortingService,ProductSortingService>();
 builder.Services.AddScoped<IShoppingCartItemService,ShoppingCartItemService>();
-builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddScoped<IAuthenticationService,AuthenticationService>();
 builder.Services.AddAutoMapper(typeof(VMMapper).Assembly);
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
