@@ -15,6 +15,7 @@ using System.Text;
 
 namespace ECommerceAPI.Controllers.V1
 {
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase

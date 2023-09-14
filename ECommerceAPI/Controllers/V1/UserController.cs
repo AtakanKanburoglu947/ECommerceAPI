@@ -10,8 +10,7 @@ using System;
 
 namespace ECommerceAPI.Controllers.V1
 {
-    //[Authorize(Roles = UserRoles.Admin)]
-    //[ApiVersion("1.0")]
+    [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -23,6 +22,7 @@ namespace ECommerceAPI.Controllers.V1
             _userService = userService;
 
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Seller + "," + UserRoles.Admin)]
         [HttpGet("Get-All-Users")]
         public async Task<IActionResult> GetAll()
         {
@@ -35,6 +35,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Seller + "," + UserRoles.Admin)]
         [HttpGet("Get-By-Id")]
         public async Task<IActionResult> GetById(string id)
         {
@@ -47,6 +48,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Seller + "," + UserRoles.Admin)]
         [HttpGet("Get-By-Email")]
         public async Task<IActionResult> GetByEmail(string email)
         {
@@ -59,6 +61,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Seller + "," + UserRoles.Admin)]
         [HttpGet("Get-By-Name")]
         public async Task<IActionResult> GetUserByUsername(string name)
         {
@@ -71,6 +74,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Admin)]
         [HttpPut("Update-User")]
         public async Task<IActionResult> UpdateUser(User user)
         {
@@ -86,6 +90,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Admin)]
         [HttpDelete("Delete-User")]
         public async Task<IActionResult> DeleteUser(string id)
         {

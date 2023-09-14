@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerceAPI.Controllers.V1
 {
-    [Authorize(Roles = UserRoles.Admin)]
     [ApiVersion("1.0")]
     [Route("api/[controller]")]
     [ApiController]
@@ -35,6 +34,7 @@ namespace ECommerceAPI.Controllers.V1
             }
 
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Seller + "," + UserRoles.Admin)]
         [HttpGet("Get-All-Catalogs")]
         public async Task<IActionResult> GetAll()
         {
@@ -47,6 +47,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Seller + "," + UserRoles.Admin)]
         [HttpGet("Get-By-Id")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -59,6 +60,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Seller + "," + UserRoles.Admin)]
         [HttpGet("Get-By-Name")]
         public async Task<IActionResult> GetCatalogByName(string name)
         {
@@ -71,6 +73,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("Update-Catalog")]
         public async Task<IActionResult> UpdateCatalog([FromBody] Catalog Catalog)
         {
@@ -86,6 +89,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpDelete("Delete-Catalog")]
         public async Task<IActionResult> DeleteCatalog(int id)
         {

@@ -9,7 +9,6 @@ using System.Data;
 
 namespace ECommerceAPI.Controllers.V1
 {
-    [Authorize(Roles = UserRoles.Admin)]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
@@ -20,6 +19,7 @@ namespace ECommerceAPI.Controllers.V1
         {
             _sellerService = sellerService;
         }
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost("Add-Seller")]
         public async Task<IActionResult> Add([FromBody] SellerVM sellerVM)
         {
@@ -36,6 +36,7 @@ namespace ECommerceAPI.Controllers.V1
             }
 
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Seller + "," + UserRoles.Admin)]
         [HttpGet("Get-All-Sellers")]
         public async Task<IActionResult> GetAll()
         {
@@ -48,6 +49,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Seller + "," + UserRoles.Admin)]
         [HttpGet("Get-By-Id")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -60,6 +62,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Seller + "," + UserRoles.Admin)]
         [HttpGet("Get-By-Name")]
         public async Task<IActionResult> GetSellerByName(string name)
         {
@@ -72,6 +75,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("Update-Seller")]
         public async Task<IActionResult> UpdateSeller(Seller Seller)
         {
@@ -87,6 +91,7 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
         }
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpDelete("Delete-Seller")]
         public async Task<IActionResult> DeleteSeller(int id)
         {
