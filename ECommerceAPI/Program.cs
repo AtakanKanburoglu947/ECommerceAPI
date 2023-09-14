@@ -12,6 +12,9 @@ using Serilog;
 using Serilog.Core;
 using Microsoft.AspNetCore.Identity;
 using ECommerceCore.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,13 +30,35 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+TokenValidationParameters tokenValidationParameters = new TokenValidationParameters()
+{
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JWT:Secret"])),
+    ValidateIssuer = true,
+    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+    ValidateAudience = true,
+    ValidAudience = builder.Configuration["JWT:ValidAudience"],
+    ValidateLifetime = true,
+    ClockSkew = TimeSpan.Zero
+};
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
 builder.Services.AddTransient<IProductSortingService,ProductSortingService>();
 builder.Services.AddScoped<IShoppingCartItemService,ShoppingCartItemService>();
+builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddAutoMapper(typeof(VMMapper).Assembly);
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+builder.Services.AddAuthentication(options => {
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = tokenValidationParameters;
+});
 builder.Services.AddApiVersioning(config =>
 {
     config.DefaultApiVersion = new ApiVersion(1, 0);
@@ -55,6 +80,7 @@ using (IServiceScope scope = app.Services.CreateScope())
     ILoggerFactory loggerFactory = (ILoggerFactory)scope.ServiceProvider.GetRequiredService(typeof(ILoggerFactory));
     app.ConfigureExceptionHandler(loggerFactory);
 }
+app.UseAuthentication();
 app.UseAuthorization();
 await RoleInitializer.SeedRoles(app);
 app.MapControllers();
