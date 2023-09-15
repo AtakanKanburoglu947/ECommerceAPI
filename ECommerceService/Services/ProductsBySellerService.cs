@@ -3,6 +3,7 @@ using ECommerceCore.Models;
 using ECommerceCore.Services;
 using ECommerceCore.ViewModels;
 using ECommerceRepository;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +23,26 @@ namespace ECommerceService.Services
         }
         public List<ProductVM> GetAllProductsBySellerName(string sellerName)
         {
-            Seller? seller = _context.Sellers.FirstOrDefault(x => x.Name == sellerName);
-            if (seller == null)
+            if (!sellerName.IsNullOrEmpty())
             {
-                throw new Exception("Could not find the seller");
+                try
+                {
+                    Seller? seller = _context.Sellers.FirstOrDefault(x => x.Name == sellerName);
+                    List<Product> products = _context.Products.Where(x => x.SellerId == seller.Id).ToList();
+                    return _mapper.Map<List<ProductVM>>(products);
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Could not find the seller");
+                }
             }
-            List<Product> products = _context.Products.Where(x => x.SellerId == seller.Id).ToList();
-            return _mapper.Map<List<ProductVM>>(products);
+            else
+            {
+                throw new Exception("Input is empty");
+            }
+
+          
+
         }
     }
 }
