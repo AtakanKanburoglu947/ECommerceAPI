@@ -109,7 +109,7 @@ namespace ECommerceAPI.Controllers.V1
             }
 
         }
-        [Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Seller + "," + UserRoles.User)]
         [HttpGet("Get-Products-By-Seller-Name")]
         public IActionResult GetAllProductsBySellerName(string sellerName)
         {

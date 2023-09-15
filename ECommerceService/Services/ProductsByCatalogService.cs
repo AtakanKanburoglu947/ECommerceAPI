@@ -23,6 +23,10 @@ namespace ECommerceService.Services
         public List<ProductVM> GetProductsByCatalogName(string catalogName)
         {
             Catalog? catalog = _context.Catalogs.FirstOrDefault(x=>x.Name == catalogName);
+            if (catalog == null)
+            {
+                throw new Exception("Could not find the catalog");
+            }
             List<Product> products = _context.Products.Where(x => x.CatalogId == catalog.Id).ToList();
             return _mapper.Map<List<ProductVM>>(products);
         }

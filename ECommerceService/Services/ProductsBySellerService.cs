@@ -22,8 +22,12 @@ namespace ECommerceService.Services
         }
         public List<ProductVM> GetAllProductsBySellerName(string sellerName)
         {
-            Catalog? catalog = _context.Catalogs.FirstOrDefault(x => x.Name == sellerName);
-            List<Product> products = _context.Products.Where(x => x.CatalogId == catalog.Id).ToList();
+            Seller? seller = _context.Sellers.FirstOrDefault(x => x.Name == sellerName);
+            if (seller == null)
+            {
+                throw new Exception("Could not find the seller");
+            }
+            List<Product> products = _context.Products.Where(x => x.SellerId == seller.Id).ToList();
             return _mapper.Map<List<ProductVM>>(products);
         }
     }
