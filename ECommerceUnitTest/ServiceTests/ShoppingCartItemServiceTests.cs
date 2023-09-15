@@ -62,7 +62,7 @@ namespace ECommerceUnitTest.ServiceTests
             {
                 new User()
                 { 
-                    Id = "2",
+                    Id = "1",
                     Balance = 100,
                 },
                 new User()
@@ -118,7 +118,7 @@ namespace ECommerceUnitTest.ServiceTests
             await _shoppingCartItemService.AddShoppingCartItem(shoppingCartItemVM);
             const string userId = "2";
             int userItemsCount = _shoppingCartItemService.GetShoppingCartItemsOfAnUser(userId).Count;
-            Assert.That(userItemsCount,Is.EqualTo(2));
+            Assert.That(userItemsCount,Is.EqualTo(1));
         }
         [Test,Order(3)]
         public async Task BuyShoppingCartItem_Test()

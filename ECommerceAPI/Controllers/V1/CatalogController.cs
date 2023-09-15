@@ -20,6 +20,7 @@ namespace ECommerceAPI.Controllers.V1
             _catalogService = catalogService;
             _productsByCatalogService = productsByCatalogService;
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Admin)]
         [HttpPost("Add-Catalog")]
         public async Task<IActionResult> Add([FromBody] CatalogVM CatalogVM)
         {
@@ -106,6 +107,7 @@ namespace ECommerceAPI.Controllers.V1
             }
 
         }
+        [Authorize(Roles = UserRoles.User + "," + UserRoles.Seller + "," + UserRoles.Admin)]
         [HttpGet("Get-Products-By-Catalog-Name")]
         public IActionResult GetProductsByCatalogName(string catalogName) {
             try
