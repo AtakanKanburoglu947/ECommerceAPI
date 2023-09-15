@@ -23,6 +23,7 @@ namespace ECommerceUnitTest.ControllerTests
         private AppDbContext _context;
         private IBaseService<Seller, SellerVM> _sellerService;
         private IBaseRepository<Seller> _sellerRepository;
+        private IProductsBySellerService _productsBySellerService;
         private SellerController _sellerController;
         private IMapper _mapper;
 
@@ -38,7 +39,8 @@ namespace ECommerceUnitTest.ControllerTests
             _mapper = new Mapper(configuration);
             _sellerRepository = new BaseRepository<Seller>(_context);
             _sellerService = new BaseService<Seller, SellerVM>(_sellerRepository, _mapper);
-            _sellerController = new SellerController(_sellerService);
+            _productsBySellerService = new ProductsBySellerService(_context,_mapper);
+            _sellerController = new SellerController(_sellerService,_productsBySellerService);
         }
         [OneTimeTearDown]
         public void CleanUp()
