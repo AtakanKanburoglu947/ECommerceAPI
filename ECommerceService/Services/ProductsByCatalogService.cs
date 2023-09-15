@@ -3,6 +3,7 @@ using ECommerceCore.Models;
 using ECommerceCore.Services;
 using ECommerceCore.ViewModels;
 using ECommerceRepository;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +24,23 @@ namespace ECommerceService.Services
         public List<ProductVM> GetProductsByCatalogName(string catalogName)
         {
             Catalog? catalog = _context.Catalogs.FirstOrDefault(x=>x.Name == catalogName);
-            if (catalog == null)
+            if (!catalogName.IsNullOrEmpty())
             {
-                throw new Exception("Could not find the catalog");
+                try
+                {
+                    List<Product> products = _context.Products.Where(x => x.CatalogId == catalog.Id).ToList();
+                    return _mapper.Map<List<ProductVM>>(products);
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Could not find the catalog");
+                }
             }
-            List<Product> products = _context.Products.Where(x => x.CatalogId == catalog.Id).ToList();
-            return _mapper.Map<List<ProductVM>>(products);
+            else
+            {
+                throw new Exception("Input is empty");
+            }
+
         }
     }
 }
