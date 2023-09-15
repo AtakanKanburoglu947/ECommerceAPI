@@ -42,6 +42,7 @@ TokenValidationParameters tokenValidationParameters = new TokenValidationParamet
     ClockSkew = TimeSpan.Zero
 };
 builder.Services.AddSingleton(tokenValidationParameters);
+builder.Services.AddScoped<IProductsBySellerService, ProductsBySellerService>();
 builder.Services.AddScoped<IUserService, UserService>();    
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));

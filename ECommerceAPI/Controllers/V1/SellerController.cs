@@ -5,6 +5,7 @@ using ECommerceCore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace ECommerceAPI.Controllers.V1
@@ -15,9 +16,11 @@ namespace ECommerceAPI.Controllers.V1
     public class SellerController : ControllerBase
     {
         private readonly IBaseService<Seller, SellerVM> _sellerService;
-        public SellerController(IBaseService<Seller, SellerVM> sellerService)
+        private readonly IProductsBySellerService _productsBySellerService;
+        public SellerController(IBaseService<Seller, SellerVM> sellerService, IProductsBySellerService productsBySellerService)
         {
             _sellerService = sellerService;
+            _productsBySellerService = productsBySellerService;
         }
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPost("Add-Seller")]
@@ -105,6 +108,19 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
 
+        }
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpGet("Get-Products-By-Seller-Name")]
+        public IActionResult GetAllProductsBySellerName(string sellerName)
+        {
+            try
+            {
+                return Ok(_productsBySellerService.GetAllProductsBySellerName(sellerName));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
     }
 }
