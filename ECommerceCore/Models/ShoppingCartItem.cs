@@ -14,10 +14,10 @@ namespace ECommerceCore.Models
         public int Amount { get; set; }
         public string UserId { get; set; }
         [ForeignKey("UserId")]
-        public User? User { get; set; }
+        public User User { get; set; }
         public int ProductId { get; set; }
         [ForeignKey("ProductId")] 
         
-        public Product? Product { get; set; }
+        public Product Product { get; set; }
     }
 }

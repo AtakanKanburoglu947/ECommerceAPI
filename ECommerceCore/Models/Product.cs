@@ -15,9 +15,9 @@ namespace ECommerceCore.Models
         public float Price { get; set; }
         public int SellerId { get; set; }
         [ForeignKey("SellerId")]
-        public Seller? Seller { get; set; }
+        public Seller Seller { get; set; }
         public int CatalogId { get; set; }
         [ForeignKey("CatalogId")]
-        public Catalog? Catalog { get; set; }
+        public Catalog Catalog { get; set; }
     }
 }
