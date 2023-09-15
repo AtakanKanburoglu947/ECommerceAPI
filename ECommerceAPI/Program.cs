@@ -45,6 +45,7 @@ builder.Services.AddSingleton(tokenValidationParameters);
 builder.Services.AddScoped<IUserService, UserService>();    
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
+builder.Services.AddTransient<IProductsByCatalogService,ProductsByCatalogService>();
 builder.Services.AddTransient<IProductSortingService,ProductSortingService>();
 builder.Services.AddScoped<IShoppingCartItemService,ShoppingCartItemService>();
 builder.Services.AddScoped<IAuthenticationService,AuthenticationService>();

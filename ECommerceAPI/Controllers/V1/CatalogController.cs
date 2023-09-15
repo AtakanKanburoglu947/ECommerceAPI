@@ -14,9 +14,11 @@ namespace ECommerceAPI.Controllers.V1
     public class CatalogController : ControllerBase
     {
         private readonly IBaseService<Catalog, CatalogVM> _catalogService;
-        public CatalogController(IBaseService<Catalog, CatalogVM> catalogService)
+        private readonly IProductsByCatalogService _productsByCatalogService;
+        public CatalogController(IBaseService<Catalog, CatalogVM> catalogService, IProductsByCatalogService productsByCatalogService)
         {
             _catalogService = catalogService;
+            _productsByCatalogService = productsByCatalogService;
         }
         [HttpPost("Add-Catalog")]
         public async Task<IActionResult> Add([FromBody] CatalogVM CatalogVM)
@@ -103,6 +105,18 @@ namespace ECommerceAPI.Controllers.V1
                 return BadRequest(exception.Message);
             }
 
+        }
+        [HttpGet("Get-Products-By-Catalog-Name")]
+        public IActionResult GetProductsByCatalogName(string catalogName) {
+            try
+            {
+                return Ok(_productsByCatalogService.GetProductsByCatalogName(catalogName));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        
         }
     }
 }
