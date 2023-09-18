@@ -10,7 +10,7 @@ namespace ECommerceCore.ViewModels
     {
         public int TotalPrice { get; set; } = 0;
         public int Amount { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int ProductId { get; set; }
     }
 }
