@@ -106,7 +106,7 @@ namespace ECommerceUnitTest.ControllerTests
             ShoppingCartItemVM shoppingCartItemVM = new ShoppingCartItemVM()
             {
                 ProductId = 1,
-                UserId = 1,
+                UserId = "1",
                 Amount = 3,
                 TotalPrice = 50
             };
